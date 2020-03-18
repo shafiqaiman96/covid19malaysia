@@ -5,12 +5,15 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="HandheldFriendly" content="true">
-<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <br>  
 <div class="container" id="centerbox">
 	<div class="middle">
   <h1 style="text-align: center"><img src="https://cdn0.iconfinder.com/data/icons/air-pollution-4/64/mask-dust-pm-particulate-512.png" style="width:50px"/>Update Kes Covid19 Malaysia<img src="https://cdn0.iconfinder.com/data/icons/air-pollution-4/64/mask-dust-pm-particulate-512.png" style="width:50px"/></h1>
-  <ul id="kawasan"></ul>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="http://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<div id="chartContainer" style="height: 360px; width: 100%;"></div>
+  <ul id="kawasan" style="padding-left: 90px"></ul>
     <h4 style="text-align: center"> Sebarang masalah sila hubungi:<a href="https://telegram.me/abeapiq" target="_blank"> abeapiq</a> via Telegram</h4>
    
 	</div>
@@ -19,6 +22,28 @@
 </html>
 
 <script>
+$(document).ready(function() {
+  var dataPoints = [];
+  $.getJSON("https://pomber.github.io/covid19/timeseries.json",             
+ function(result) {
+    for (var i = 0; i <= result.Malaysia.length - 1; i++) {
+      dataPoints.push({
+        label: result.Malaysia[i].date,
+        y: parseInt(result.Malaysia[i].confirmed)
+      });
+    }
+
+    var chart = new CanvasJS.Chart("chartContainer", {
+      data: [{
+        type: "column",
+        dataPoints: dataPoints
+      }]
+    });
+
+    chart.render();
+  });
+});
+
 function createNode(element) {
       return document.createElement(element);
   }
@@ -55,13 +80,15 @@ function updateDOM(data) {
 </script>
 
 <style>
+
 #centerbox{
   background-color: #E3D2CF;
 }
 ul > li {
 display: inline-block;
 padding: 20px;
-padding-bottom: 55px;
+padding-right: 30px;
+padding-bottom: 40px;
 }
 li{
   background: #fff;
