@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <meta name="HandheldFriendly" content="true">
-<script src="https://code.angularjs.org/1.4.12/angular.js"></script>
-<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+   <script src="js/my-custom-script.js"></script>
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="http://canvasjs.com/assets/script/canvasjs.min.js"></script>
@@ -15,6 +15,11 @@
 	<div class="middle">
   <h1 style="text-align: center"><img src="https://cdn0.iconfinder.com/data/icons/air-pollution-4/64/mask-dust-pm-particulate-512.png" style="width:50px"/>Update Kes Covid19 Malaysia<img src="https://cdn0.iconfinder.com/data/icons/air-pollution-4/64/mask-dust-pm-particulate-512.png" style="width:50px"/></h1><br>
 <div id="chartContainer" style="height: 360px; width: 100%;"></div>
+    <br>
+   <ol id="harini"></ol>
+    <ul2><h4 id="authors" style="background: #fff; padding: 20px; border-radius: 5px"><div style="text-align: center;"><a>COVID-19 NEWS<a></div><br><br></h4></ul2>
+    <br>
+      <a><i>*data mungkin lambat update sikit disebabkan perbezaan time zone dari pihak API</i><a>
   <ul id="kawasan" style="padding-left: 30px"></ul>
     <h4 style="text-align: center"> Sebarang masalah sila hubungi:<a href="https://telegram.me/abeapiq" target="_blank"> abeapiq</a> via Telegram</h4>
    
@@ -24,7 +29,45 @@
 </html>
 
 <script>
+const ul2 = document.getElementById('authors');
+const url = 'https://newsapi.org/v2/top-headlines?country=my&q=covid-19&apiKey=3301c7d609a04b0eb607d4b84a1d530d';
+  fetch(url)
+  .then((resp) => resp.json())
+  .then(function(data) {
+    let authors = data.articles;
+    return authors.map(function(author) {
+      var datetime = Date.parse(author.publishedAt);
+    var now = moment(datetime).format('MMMM Do YYYY, h:mm:ss a');
+      let li3 = createNode('li3'),
+       span = createNode('span');
+       span.innerHTML = `${author.title}
+<br><i style="padding-left: 20px">(${now})<i><br><br>`;
+      append(li3, span);
+      append(ul2, li3);
+    })
+  })
+
 $(document).ready(function() {
+  const ol = document.getElementById('harini')
+fetch('https://coronavirus-19-api.herokuapp.com/countries/malaysia')
+ .then((resp) => resp.json())
+  .then(function(data) {
+      let li2 = createNode('li2'),
+       span = createNode('span')
+       span.innerHTML = `Jumlah kes: ${data.cases}<br>
+                          Kes Hari Ini: ${data.todayCases}<br>
+                          Jumlah Kematian: ${data.deaths}<br>
+                          Kematian Hari Ini: ${data.todayDeaths}<br>
+                          Jumlah Pulih: ${data.recovered}<br>
+                          Kes Aktif: ${data.active}<br>
+                          Kes Kritikal: ${data.critical}
+
+                          `
+      append(li2, span)
+      append(ol, li2)
+	console.log(data)
+	updateDOM(data)
+      })
   var dataPoints = [];
   $.getJSON("https://pomber.github.io/covid19/timeseries.json",             
  function(result) {
@@ -79,12 +122,15 @@ function updateDOM(data) {
 		var city = data.Malaysia
 	}
 });
+
+
 </script>
 
 <style>
 
 #centerbox{
-background-color: #E3D2CF;
+  background-color: #E3D2CF;
+  font-family: arial;
 }
 ul > li {
 display: inline-block;
@@ -107,4 +153,27 @@ li{
 li:nth-child(n+1000000) {
   order: 1;
 }
+
+li2{
+background: #00FF22;
+font-size: 20px;
+line-height: 30px;
+display: inline-block;
+width: 180px;
+padding: 20px;
+padding-left: 30px;
+padding-bottom: 40px;
+border-radius: 5px;
+border-style: dashed;
+animation:move 1s infinite ease-in-out;
+}
+@keyframes move{
+0%{
+ transform: scale(1) rotate(0deg);
+}
+  100%{
+   transform: scale(1.1) rotate(0.1deg);
+
+  }
+
 </style>
