@@ -55,7 +55,8 @@ fetch('https://coronavirus-19-api.herokuapp.com/countries/malaysia')
   .then(function(data) {
       let li2 = createNode('li2'),
        span = createNode('span')
-       span.innerHTML = `Jumlah kes: ${data.cases}<br>
+       span.innerHTML = `<div style="text-align: center"><b>!! TERKINI !!</b></div>
+Jumlah kes: ${data.cases}<br>
                           Kes Hari Ini: ${data.todayCases}<br>
                           Jumlah Kematian: ${data.deaths}<br>
                           Kematian Hari Ini: ${data.todayDeaths}<br>
@@ -123,8 +124,6 @@ function updateDOM(data) {
 		var city = data.Malaysia
 	}
 });
-
-
 </script>
 
 <style>
@@ -156,7 +155,8 @@ li:nth-child(n+1000000) {
 }
 
 li2{
-background: #00FF22;
+background-color: red; 
+background-image: radial-gradient(circle, yellow, orange, red);
 font-size: 20px;
 line-height: 30px;
 display: inline-block;
@@ -165,7 +165,7 @@ padding: 20px;
 padding-left: 30px;
 padding-bottom: 40px;
 border-radius: 5px;
-border-style: dashed;
+border-style: inset;
 animation:move 1s infinite ease-in-out;
 }
 @keyframes move{
