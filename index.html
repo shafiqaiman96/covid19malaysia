@@ -106,7 +106,7 @@
 
 <script>
   const ul2 = document.getElementById('authors');
-  const url = 'https://newsapi.org/v2/top-headlines?country=my&q=covid-19&apiKey=3301c7d609a04b0eb607d4b84a1d530d';
+  const url = 'http://103.233.3.45:4400/cov';
   fetch(url)
     .then((resp) => resp.json())
     .then(function (data) {
